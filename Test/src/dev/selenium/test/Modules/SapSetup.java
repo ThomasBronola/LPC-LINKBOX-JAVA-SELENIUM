@@ -164,5 +164,115 @@ public class SapSetup {
         }
         private static void UpdateSAP(WebDriver driver, WebDriverWait wait, String savePath,
                                   Map<String, String> sapSetup, Logger logger) throws InterruptedException, FileNotFoundException {
+
+        Map<String, Object> Namess = JsonDatasetArray.parser("SapSetup");
+        List<String> namessArray = (List<String>) Namess.get("Random_username");
+        Random randoms = new Random();
+        List<WebElement> x;
+
+        String RemoteUpdateSapUserID = "admin";
+        String RemoteUpdateSapPassword = "password";
+        String logMessage, dupPathCode = "";
+
+        for (int a = 0; a < 3; a++) {
+
+            String updnameVar = namessArray.get(randoms.nextInt(100));
+            String updDbPort = "1" + randoms.nextInt(200) + "10";
+            String updSldServer = "TEST SLD SERVER";
+            String updServerName = "TEST SERVER NAME " + updnameVar + "." + randoms.nextInt(200);
+            String updIpaddress = "192.168." + randoms.nextInt(200) + "." + randoms.nextInt(200);
+            String updVersion = randoms.nextInt(200) + "";
+            String updLicPort = "1" + randoms.nextInt(200);
+            String updDBName = "TEST DATABASE " + updnameVar;
+            String updDBUserID = "TEST DATABASE " + randoms.nextInt(200);
+            String updDBpassword = RemoteUpdateSapPassword;
+            String updSapUserID = RemoteUpdateSapUserID;
+            String updSapPassword = RemoteUpdateSapPassword;
+
+            switch (a) {
+                //Update with all complete fields
+                case 0:
+                    //Opening Modal to update existing SAP setup
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_EditSAPSetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_EditSAPSetup"))));
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPort"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPort"))).sendKeys(updDbPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SLDServer"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SLDServer"))).sendKeys(updSldServer);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SerName"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SerName"))).sendKeys(updServerName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_IpAdd"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_Version"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_LicPort"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_LicPort"))).sendKeys(updLicPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBName"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBName"))).sendKeys(updDBName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBuserID"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBuserID"))).sendKeys(updDBUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPassword"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPassword"))).sendKeys(updSapUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPuserID"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPuserID"))).sendKeys(updDBpassword);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPpassword"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPpassword"))).sendKeys(updSapPassword);
+                    screenshot(driver, savePath, "SAP Setup Module update complete Field.png");
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_SaveUpdateSAPSetup"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("btn_Confirm_NEWandUPDATE_SAPSetup"))).click();
+                    break;
+
+                //Update with all incomplete fields
+                case 1:
+                    //Opening Modal to update existing SAP setup
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_EditSAPSetup2"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_EditSAPSetup"))));
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPort"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SLDServer"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SLDServer"))).sendKeys(updSldServer);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SerName"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SerName"))).sendKeys(updServerName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_IpAdd"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_IpAdd"))).sendKeys(updIpaddress);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_Version"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBName"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBName"))).sendKeys(updDBName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBuserID"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBuserID"))).sendKeys(updDBUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPassword"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_DBPassword"))).sendKeys(updSapUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPuserID"))).clear();
+                    driver.findElement(By.xpath(sapSetup.get("inp_UpdUserDetails_SAPpassword"))).clear();
+                    screenshot(driver, savePath, "SAP Setup Module update incomplete Field.png");
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_SaveUpdateSAPSetup"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("btn_CloseUpdateSAPSetup"))).click();
+                    break;
+        }
+    }
+
+    private static void SearchSAP(WebDriver driver, WebDriverWait wait, String savePath,
+                                  Map<String, String> sapSetup, Logger logger) throws InterruptedException {
+        driver.findElement(By.xpath(sapSetup.get("Search_ClickkeywordsSAP"))).click();
+        driver.findElement(By.xpath(sapSetup.get("Search_ClickkeywordsSAP"))).sendKeys(sapSetup.get("Search_InputkeywordsSAP"));
+        screenshot(driver, savePath, "SAP Search keywords.png");
+        logger.info("Search Keywords");
+        Thread.sleep(2000);
+    }
+
+    private static void ASCandDESSAP(WebDriver driver,
+                                     String savePath, Map<String, String> sapSetup, Logger logger) throws InterruptedException{
+        driver.findElement(By.xpath(sapSetup.get("SAPAscending"))).click();
+        screenshot(driver, savePath, "SAP Ascending.png");
+        logger.info("Ascending Order Test Automation");
+        Thread.sleep(2000);
+
+        driver.findElement(By.xpath(sapSetup.get("SAPDescending"))).click();
+        screenshot(driver, savePath, "SAP Descending.png");
+        logger.info("Descending Order Test Automation");
+        Thread.sleep(2000);
+
     }
 }
+
