@@ -1,26 +1,27 @@
 package dev.selenium.test.Modules;
 
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.logging.Logger;
+import java.lang.String;
+
 import dev.selenium.test.Customizations.JsonDatasetArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.asserts.SoftAssert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.asserts.SoftAssert;
 
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.logging.Logger;
 
 import static dev.selenium.test.Customizations.screenshot.screenshot;
+
 public class SapSetup {
 
-    public static void Test_SapSetup(WebDriver driver, WebDriverWait wait, Map<String, String> test, Logger logger, String savePath) throws InterruptedException {
-        logger.info("[START] of Test Module 1");
-        screenshot(driver, savePath, "Test Module 1.png");
-
+    public static void Test_SapSetup(WebDriver driver, WebDriverWait wait,
+                                     Map<String, String> SapSetup, Logger logger,
+                                     SoftAssert softAssert, String savePath) throws InterruptedException, FileNotFoundException {
         logger.info("[START] of SapSetup Test Automation");
         screenshot(driver, savePath, "Test Sapsetup.png");
 
@@ -36,10 +37,11 @@ public class SapSetup {
         //Close the website
         driver.close();
         driver.quit();
+    }
 
-    private static void OpenModule(WebDriver driver, SoftAssert softAssert,
-                                   Map<String, String> SapSetup, Logger logger,
-                                   WebDriverWait wait, String savePath) throws InterruptedException {
+    protected static void OpenModule(WebDriver driver, SoftAssert softAssert,
+                                     Map<String, String> SapSetup, Logger logger,
+                                     WebDriverWait wait, String savePath) throws InterruptedException {
 
         logger.info("Opening SAP Setup Module");
 
@@ -53,116 +55,118 @@ public class SapSetup {
         screenshot(driver, savePath, "Path Setup Module.png");
 
     }
+
     private static void AddSAP(WebDriver driver, WebDriverWait wait,
                                String savePath, Map<String, String> sapSetup,
                                Logger logger) throws FileNotFoundException, InterruptedException {
-            Map<String, Object> Names = JsonDatasetArray.parser("SapSetup");
-            List<String> namesArray = (List<String>) Names.get("Random_username");
-            Random random = new Random();
-            List<WebElement> x;
+        Map<String, Object> Names = JsonDatasetArray.parser("SapSetup");
+        List<String> namesArray = (List<String>) Names.get("Random_username");
+        Random random = new Random();
+        List<WebElement> x;
 
-            String RemoteSapUserID = "admin";
-            String RemoteSapPassword = "password";
-            String logMessage, dupPathCode = "";
+        String RemoteSapUserID = "admin";
+        String RemoteSapPassword = "password";
+        String logMessage, dupPathCode = "";
 
 
-            for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
 
-                String nameVar = namesArray.get(random.nextInt(100));
-                String IncSapCode = "TEST_" + random.nextInt(200) + "10";
-                String SapCode = "SAP_" + nameVar + random.nextInt(200);
-                String DbPort = "1" + random.nextInt(200) + "10";
-                String SldServer = "TEST SLD SERVER";
-                String ServerName = "TEST SERVER NAME " + nameVar + "." + random.nextInt(200);
-                String Ipaddress = "192.168." + random.nextInt(200) + "." + random.nextInt(200);
-                String Version = random.nextInt(200) + "";
-                String LicPort = "1" + random.nextInt(200);
-                String DBName = "TEST DATABASE " + nameVar;
-                String DBUserID = "TEST DATABASE " + random.nextInt(200);
-                String DBpassword = RemoteSapPassword;
-                String SapUserID = RemoteSapUserID;
-                String SapPassword = RemoteSapPassword;
+            String nameVar = namesArray.get(random.nextInt(100));
+            String IncSapCode = "TEST_" + random.nextInt(200) + "10";
+            String SapCode = "SAP_" + nameVar + random.nextInt(200);
+            String DbPort = "1" + random.nextInt(200) + "10";
+            String SldServer = "TEST SLD SERVER";
+            String ServerName = "TEST SERVER NAME " + nameVar + "." + random.nextInt(200);
+            String Ipaddress = "192.168." + random.nextInt(200) + "." + random.nextInt(200);
+            String Version = random.nextInt(200) + "";
+            String LicPort = "1" + random.nextInt(200);
+            String DBName = "TEST DATABASE " + nameVar;
+            String DBUserID = "TEST DATABASE " + random.nextInt(200);
+            String DBpassword = RemoteSapPassword;
+            String SapUserID = RemoteSapUserID;
+            String SapPassword = RemoteSapPassword;
 
-                switch (i) {
+            switch (i) {
 
-                    //Adding with all complete fields
-                    case 0:
-                        //Opening Modal to create new SAP setup
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
-                        wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(SapCode);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).sendKeys(DbPort);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).sendKeys(SldServer);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).sendKeys(ServerName);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).sendKeys(Ipaddress);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).sendKeys(Version);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).sendKeys(LicPort);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).sendKeys(DBName);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).sendKeys(DBUserID);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).sendKeys(SapUserID);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).sendKeys(DBpassword);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).sendKeys(SapPassword);
-                        screenshot(driver, savePath, "SAP Setup Module Complete Field.png");
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
-                        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(sapSetup.get("modal_ConfirmSAPSave"))));
-                        driver.findElement(By.xpath(sapSetup.get("btn_Confirm_NEWandUPDATE_SAPSetup"))).click();
-                        break;
+                //Adding with all complete fields
+                case 0:
+                    //Opening Modal to create new SAP setup
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(SapCode);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).sendKeys(DbPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).sendKeys(SldServer);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).sendKeys(ServerName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).sendKeys(Ipaddress);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).sendKeys(Version);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).sendKeys(LicPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).sendKeys(DBName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).sendKeys(DBUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).sendKeys(SapUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).sendKeys(DBpassword);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).sendKeys(SapPassword);
+                    screenshot(driver, savePath, "SAP Setup Module Complete Field.png");
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(sapSetup.get("modal_ConfirmSAPSave"))));
+                    driver.findElement(By.xpath(sapSetup.get("btn_Confirm_NEWandUPDATE_SAPSetup"))).click();
+                    break;
 
-                    //Adding without required fields
-                    case 1:
-                        //Opening Modal to create new SAP setup
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
-                        wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(IncSapCode);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).click();
-                        screenshot(driver, savePath, "SAP Setup Module Required Field.png");
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("btn_CloseNewSAPSetup"))).click();
-                        break;
+                //Adding without required fields
+                case 1:
+                    //Opening Modal to create new SAP setup
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(IncSapCode);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).click();
+                    screenshot(driver, savePath, "SAP Setup Module Required Field.png");
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("btn_CloseNewSAPSetup"))).click();
+                    break;
 
-                    //Adding without optional fields
-                    case 2:
-                        //Opening Modal to create new SAP setup
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
-                        wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(SapCode);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).sendKeys(DbPort);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).sendKeys(SldServer);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).sendKeys(ServerName);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).sendKeys(Ipaddress);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).click();
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).sendKeys(LicPort);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).sendKeys(DBName);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).sendKeys(DBUserID);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).sendKeys(SapUserID);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).sendKeys(DBpassword);
-                        driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).sendKeys(SapPassword);
-                        screenshot(driver, savePath, "SAP Setup Module Optional Field.png");
-                        Thread.sleep(2000);
-                        driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
-                        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(sapSetup.get("modal_ConfirmSAPSave"))));
-                        driver.findElement(By.xpath(sapSetup.get("btn_Confirm_NEWandUPDATE_SAPSetup"))).click();
-                        break;
-                }
+                //Adding without optional fields
+                case 2:
+                    //Opening Modal to create new SAP setup
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_NewSAPetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id(sapSetup.get("modal_AddSAPSetup"))));
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPCode"))).sendKeys(SapCode);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPort"))).sendKeys(DbPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SLDServer"))).sendKeys(SldServer);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SerName"))).sendKeys(ServerName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_IpAdd"))).sendKeys(Ipaddress);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_Version"))).click();
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_LicPort"))).sendKeys(LicPort);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBName"))).sendKeys(DBName);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBuserID"))).sendKeys(DBUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_DBPassword"))).sendKeys(SapUserID);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPuserID"))).sendKeys(DBpassword);
+                    driver.findElement(By.xpath(sapSetup.get("inp_AddUserDetails_SAPpassword"))).sendKeys(SapPassword);
+                    screenshot(driver, savePath, "SAP Setup Module Optional Field.png");
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(sapSetup.get("btn_SaveNewSAPSetup"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(sapSetup.get("modal_ConfirmSAPSave"))));
+                    driver.findElement(By.xpath(sapSetup.get("btn_Confirm_NEWandUPDATE_SAPSetup"))).click();
+                    break;
             }
         }
-        private static void UpdateSAP(WebDriver driver, WebDriverWait wait, String savePath,
+
+    }
+    private static void UpdateSAP(WebDriver driver, WebDriverWait wait, String savePath,
                                   Map<String, String> sapSetup, Logger logger) throws InterruptedException, FileNotFoundException {
 
         Map<String, Object> Namess = JsonDatasetArray.parser("SapSetup");
@@ -249,6 +253,8 @@ public class SapSetup {
                     driver.findElement(By.xpath(sapSetup.get("btn_SaveUpdateSAPSetup"))).click();
                     driver.findElement(By.xpath(sapSetup.get("btn_CloseUpdateSAPSetup"))).click();
                     break;
+
+            }
         }
     }
 
@@ -275,4 +281,3 @@ public class SapSetup {
 
     }
 }
-
