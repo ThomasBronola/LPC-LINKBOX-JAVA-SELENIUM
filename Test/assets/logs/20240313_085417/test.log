@@ -1,0 +1,33 @@
+Mar 13, 2024 8:54:29 AM dev.selenium.test.Modules.Login Test_Login
+INFO: [Start] of Login Test Automation
+Mar 13, 2024 8:54:37 AM dev.selenium.test.Modules.Login Test_Login
+INFO: [End] of Login Test Automation
+Mar 13, 2024 8:54:37 AM dev.selenium.test.Modules.PathSetup OpenModule
+INFO: Opening User Details Module
+Mar 13, 2024 8:54:41 AM dev.selenium.test.Modules.PathSetup OpenModule
+INFO: [PASS] Opened Path Setup Module
+Mar 13, 2024 8:54:42 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Unable to add path setup without required fields
+Mar 13, 2024 8:54:45 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Cancel Button on Confirming Saving of New Path Setup
+Mar 13, 2024 8:54:46 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Saved New Path Setup - Required Field Only
+Mar 13, 2024 8:54:46 AM dev.selenium.test.Modules.PathSetup ViewPath
+INFO: [START] Validating Path Details for Adding with optional fields - 
+Mar 13, 2024 8:54:49 AM dev.selenium.test.Modules.PathSetup ViewPath
+INFO: [END] Validating Path Details forAdding with optional fields - 
+Mar 13, 2024 8:54:54 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Add Path Setup - Unable to add with existing Path Code
+Mar 13, 2024 8:54:58 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Add Path Setup - Able to ENCRYPT password
+Mar 13, 2024 8:54:58 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Add Path Setup - Able to DECRYPT Password
+Mar 13, 2024 8:54:59 AM dev.selenium.test.Modules.PathSetup AddPath
+INFO: [PASS] Saved New Path Setup - Complete Fields
+Mar 13, 2024 8:56:11 AM dev.selenium.test.Modules.PathSetup ViewPath
+INFO: [START] Validating Path Details for Adding with complete fields - 
+Mar 13, 2024 8:56:16 AM dev.selenium.test.Modules.PathSetup ViewPath
+INFO: [END] Validating Path Details forAdding with complete fields - 
+Mar 13, 2024 8:57:24 AM dev.selenium.test.Main main
+INFO: 
+All assertions passed successfully.
