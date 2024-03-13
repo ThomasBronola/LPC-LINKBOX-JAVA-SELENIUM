@@ -82,7 +82,7 @@ public class Main {
 //        driver.quit();
         try {
             softAssert.assertAll();
-            logger.info("All assertions passed successfully.\n");
+            logger.info("\nAll assertions passed successfully.");
         } catch (AssertionError e) {
             logger.info("\nOne or more assertions failed: " + e.getMessage());
         }
